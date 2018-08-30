@@ -1,31 +1,33 @@
 package simulation;
 
-import org.usfirst.frc.team1683.driveTrain.DriveTrain;
+import commands.DriveForward;
+import commands.DriveForwardAntiDrift;
 import org.usfirst.frc.team1683.driveTrain.TankDrive;
-import org.usfirst.frc.team1683.path.LinearEasing;
-import org.usfirst.frc.team1683.path.Path;
-import org.usfirst.frc.team1683.path.PathPoint;
-import org.usfirst.frc.team1683.path.SpeedEasing;
-
-import commands.TestCommand;
-import commands.TestCommand2;
-import commands.TestCommand3;
 
 
 public class Robot extends SimIterativeRobot {
 	public static TankDrive driveTrain;
 	private double prevEnc;
+	private Command command;
+	private CommandGroup action;
 	
 	@Override
 	public void robotInit() {
-		driveTrain = new TankDrive(super.getLeftSimGroup(), super.getRightSimGroup());
+		driveTrain = new TankDrive(super.getLeftSimGroup(), super.getRightSimGroup(), Robot.gyro);
 	}
 	
 	public void autonomousInit() {
+//		command = new TurnToAngle(Direction.RIGHT, 20, 0.3); /*new DriveForward(4000, 0.2);*/
+		command = new DriveForwardAntiDrift(100000, 1);
+		command.start();
+//		action = new Square(10000, 0.2);
+//		action.start();
 	}
 	
 	@Override
 	public void autonomousPeriodic() {
-		System.out.println("Hello");
+		Main.debug.put("Angle", Robot.gyro.getAngle());
+		Command.runAllCommands();
+//		CommandGroup.runAllCommands();
 	}
 }

@@ -63,13 +63,7 @@ public class Main {
         //t.start();
 	}
 	public static void main(String[] args) {
-	    SwingUtilities.invokeLater(new Runnable() 
-	    {
-	        public void run() 
-	        {
-	        	startSim();
-	        }
-	    });
+	    SwingUtilities.invokeLater(Main::startSim);
 	}
 	
 	public static int getFrames() {
